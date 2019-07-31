@@ -12,6 +12,8 @@ func main() {
 	for key, value := range dictionary {
 		fmt.Println(key, value)
 	}
+
+	fmt.Println("Max key length:", findMaxKeyLen(dictionary))
 }
 
 // in this project errors are not important
@@ -39,4 +41,16 @@ func createDictionary(raw_data string) map[string]string {
 	}
 
 	return dictionary
+}
+
+func findMaxKeyLen(dict map[string]string) int {
+	maxlen := 0
+
+	for key, _ := range dict {
+		if len(key) > maxlen {
+			maxlen = len(key)
+		}
+	}
+
+	return maxlen
 }
