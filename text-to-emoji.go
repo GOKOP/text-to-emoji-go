@@ -11,15 +11,10 @@ import (
 func main() {
 	dictionary := createDictionary( loadFileToString("dic.list") )
 
-	for key, value := range dictionary {
-		fmt.Println(key, value)
-	}
-
-	fmt.Println("Max key length:", findMaxKeyLen(dictionary))
-
 	arg, err := getArgument()
 	checkErr(err)
-	fmt.Println(arg)
+
+	fmt.Println(toEmoji(arg, dictionary))
 }
 
 // don't panic, just close gracefully with message of the error
@@ -69,4 +64,49 @@ func getArgument() (string, error) {
 	} else {
 		return args[1], nil
 	}
+}
+
+func toEmoji(original string, dictionary map[string]string) string {
+	maxLen    := findMaxKeyLen(dictionary)
+	converted := ""
+
+	for len(original) > 0 {
+		curLen := maxLen
+		emoji  := ""
+
+		for curLen > 0 {
+			if curLen > len(original) {
+				curLen = len(original)
+			}
+
+			snippet    := original[:curLen-1]
+			match, err := matchSnippet(snippet, dictionary)
+			emoji       = match
+
+			if err == nil {
+				break;
+			}
+
+			curLen -= 1
+		}
+
+		if emoji == "" {
+			converted += strings.ToUpper( string(original[0]) )
+			original = original[1:]
+		} else {
+			converted += emoji
+			original = original[curLen-1:]
+		}
+	}
+
+	return converted
+}
+
+func matchSnippet(snippet string, dictionary map[string]string) (string, error) {
+	for key, value := range dictionary {
+		if snippet == key {
+			return value, nil
+		}
+	}
+	return "", errors.New("No match")
 }
