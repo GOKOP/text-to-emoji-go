@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"strings"
+	"os"
+	"errors"
 )
 
 func main() {
@@ -14,9 +16,13 @@ func main() {
 	}
 
 	fmt.Println("Max key length:", findMaxKeyLen(dictionary))
+
+	arg, err := getArgument()
+	checkErr(err)
+	fmt.Println(arg)
 }
 
-// in this project errors are not important
+// in this project errors are not important so we can just panic
 func checkErr(e error) {
 	if e != nil {
 		panic(e)
@@ -53,4 +59,13 @@ func findMaxKeyLen(dict map[string]string) int {
 	}
 
 	return maxlen
+}
+
+func getArgument() (string, error) {
+	args := os.Args;
+	if(len(args) <= 1) {
+		return "", errors.New("You must provide an argument.")
+	} else {
+		return args[1], nil
+	}
 }
