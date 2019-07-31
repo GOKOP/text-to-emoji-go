@@ -79,7 +79,7 @@ func toEmoji(original string, dictionary map[string]string) string {
 				curLen = len(original)
 			}
 
-			snippet    := original[:curLen-1]
+			snippet    := original[:curLen]
 			match, err := matchSnippet(snippet, dictionary)
 			emoji       = match
 
@@ -91,11 +91,11 @@ func toEmoji(original string, dictionary map[string]string) string {
 		}
 
 		if emoji == "" {
-			converted += strings.ToUpper( string(original[0]) )
+			converted += reformat( string(original[0]) )
 			original = original[1:]
 		} else {
 			converted += emoji
-			original = original[curLen-1:]
+			original = original[curLen:]
 		}
 	}
 
@@ -109,4 +109,12 @@ func matchSnippet(snippet string, dictionary map[string]string) (string, error) 
 		}
 	}
 	return "", errors.New("No match")
+}
+
+func reformat(original string) string {
+	if(original == " ") {
+		return "   "
+	} else {
+		return strings.ToUpper(original)
+	}
 }
