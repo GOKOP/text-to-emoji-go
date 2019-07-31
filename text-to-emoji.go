@@ -22,10 +22,11 @@ func main() {
 	fmt.Println(arg)
 }
 
-// in this project errors are not important so we can just panic
+// don't panic, just close gracefully with message of the error
 func checkErr(e error) {
 	if e != nil {
-		panic(e)
+		fmt.Println(e)
+		os.Exit(1)
 	}
 }
 
@@ -50,15 +51,15 @@ func createDictionary(raw_data string) map[string]string {
 }
 
 func findMaxKeyLen(dict map[string]string) int {
-	maxlen := 0
+	maxLen := 0
 
 	for key, _ := range dict {
-		if len(key) > maxlen {
-			maxlen = len(key)
+		if len(key) > maxLen {
+			maxLen = len(key)
 		}
 	}
 
-	return maxlen
+	return maxLen
 }
 
 func getArgument() (string, error) {
