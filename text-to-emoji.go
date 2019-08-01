@@ -79,7 +79,7 @@ func toEmoji(original string, dictionary map[string]string) string {
 				curLen = len(original)
 			}
 
-			snippet    := original[:curLen]
+			snippet    := subStr(original, 0, curLen)
 			match, err := matchSnippet(snippet, dictionary)
 			emoji       = match
 
@@ -91,11 +91,11 @@ func toEmoji(original string, dictionary map[string]string) string {
 		}
 
 		if emoji == "" {
-			converted += reformat( string(original[0]) )
-			original = original[1:]
+			converted += reformat(subStr(original, 0, 1))
+			original = subStr(original, 1, 999) // high number gets lowered to []rune length
 		} else {
 			converted += emoji
-			original = original[curLen:]
+			original = subStr(original, curLen, 999)
 		}
 	}
 
@@ -117,4 +117,18 @@ func reformat(original string) string {
 	} else {
 		return strings.ToUpper(original)
 	}
+}
+
+func subStr(input string, beg int, end int) string {
+	runes := []rune(input)
+
+	if(beg >= len(runes)) {
+		return ""
+	}
+
+	if(end >= len(runes)) {
+		end = len(runes)
+	}
+
+	return string(runes[beg : end])
 }
