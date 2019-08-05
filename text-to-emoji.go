@@ -13,6 +13,7 @@ func main() {
 
 	arg, err := getArgument()
 	checkErr(err)
+	arg = strings.ToLower(arg)
 
 	fmt.Println(toEmoji(arg, dictionary))
 }
