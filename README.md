@@ -7,4 +7,6 @@ $ ./text-to-emoji "The most boring sentence in the world."
 ```
 
 You can use it online [here](http://supersraka.ddns.net/emoji/tool.php).  
-You can also use it with Telegram bot @emojiconvert\_bot
+You can also use it with Telegram bot @emojiconvert\_bot  
+IMPORTANT
+The service is temporarily down
