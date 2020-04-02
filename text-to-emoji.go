@@ -93,10 +93,10 @@ func toEmoji(original string, dictionary map[string]string) string {
 
 		if emoji == "" {
 			converted += reformat(subStr(original, 0, 1))
-			original = subStr(original, 1, 999) // high number gets lowered to []rune length
+			original = subStr(original, 1, len([]rune(original)))
 		} else {
 			converted += emoji
-			original = subStr(original, curLen, 999)
+			original = subStr(original, curLen, len([]rune(original)))
 		}
 	}
 
